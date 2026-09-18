@@ -7,7 +7,7 @@ import { useDictation } from "../hooks/useDictation";
 import { createTaskSchema, type CreateTaskFormValues } from "../schemas/createTask";
 import "./CreateTaskBar.css";
 
-// Single pill-shaped bar (icon, input, divider, mic) per docs/DECISIONS.md,
+// Single pill-shaped bar (mic, divider, input, "+") per docs/DECISIONS.md,
 // "Quick-add bar stays always-visible, no modal/sheet" and
 // docs/UX_UI.md "Updated reference (v2)". A plain native <input> here
 // (not Cunningham's Input) since this is one bespoke composite control,
@@ -49,22 +49,6 @@ export function CreateTaskBar() {
     <div className="create-task-bar">
       <form onSubmit={onSubmit} className="create-task-bar__pill">
         <button
-          type="submit"
-          className="create-task-bar__badge create-task-bar__badge--button"
-          aria-label="Ajouter la tâche"
-        >
-          <Plus size={18} />
-        </button>
-        <input
-          {...textFieldProps}
-          ref={textFieldRef}
-          type="text"
-          className="create-task-bar__input"
-          placeholder="Ajouter une tâche rapidement..."
-          aria-label="Nouvelle tâche"
-        />
-        <span className="create-task-bar__divider" aria-hidden="true" />
-        <button
           type="button"
           className={
             "create-task-bar__badge create-task-bar__badge--button" +
@@ -74,6 +58,22 @@ export function CreateTaskBar() {
           aria-label={dictation.recording ? "Arrêter la dictée" : "Dicter la tâche"}
         >
           {dictation.recording ? <Square size={18} /> : <Mic size={18} />}
+        </button>
+        <span className="create-task-bar__divider" aria-hidden="true" />
+        <input
+          {...textFieldProps}
+          ref={textFieldRef}
+          type="text"
+          className="create-task-bar__input"
+          placeholder="Ajouter une tâche rapidement..."
+          aria-label="Nouvelle tâche"
+        />
+        <button
+          type="submit"
+          className="create-task-bar__badge create-task-bar__badge--button"
+          aria-label="Ajouter la tâche"
+        >
+          <Plus size={18} />
         </button>
       </form>
 
