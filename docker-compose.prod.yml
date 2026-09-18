@@ -1,0 +1,7 @@
+# Production overrides, used with:
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+services:
+  backend:
+    # No --watch, no source mounts: run the code baked into the image
+    command: ["sh", "-c", "bun run db:deploy && bun run start"]
+    volumes: !reset []

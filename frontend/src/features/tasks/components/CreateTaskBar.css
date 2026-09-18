@@ -1,0 +1,64 @@
+.create-task-bar {
+  margin-bottom: 1rem;
+}
+
+.create-task-bar__pill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 56px;
+  padding: 0 0.5rem;
+  background: #fff;
+  border: 1px solid #e3e8f0;
+  border-radius: 28px;
+}
+
+.create-task-bar__badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--c--globals--colors--brand-050, #eaf1fb);
+  color: var(--c--globals--colors--brand-600, #000091);
+}
+
+.create-task-bar__badge--button {
+  cursor: pointer;
+}
+
+.create-task-bar__badge--recording {
+  background: var(--c--globals--colors--brand-600, #000091);
+  color: #fff;
+}
+
+.create-task-bar__input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  font-size: 0.9375rem;
+  color: #0b1638;
+}
+
+.create-task-bar__input::placeholder {
+  color: #667085;
+}
+
+.create-task-bar__divider {
+  flex-shrink: 0;
+  width: 1px;
+  height: 24px;
+  background: #e3e8f0;
+}
+
+.create-task-bar__error {
+  margin: 0.5rem 0 0;
+  font-size: 0.8125rem;
+  color: #c9191e;
+}

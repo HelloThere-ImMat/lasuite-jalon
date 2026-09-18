@@ -1,0 +1,12 @@
+.summary-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: var(--c--globals--colors--brand-050, #e8edff);
+  color: var(--c--globals--colors--brand-600, #000091);
+  font-size: 0.875rem;
+  font-weight: 600;
+}

@@ -1,0 +1,19 @@
+.demo-page {
+  max-width: 640px;
+  margin: 0 auto;
+  /* /demo renders outside AppShell (docs/DECISIONS_A_TRANCHER.md, "Milestone
+     6 mock access"), so it doesn't inherit AppShell's own safe-area padding
+     — see docs/audits/pwa-safe-area-margins.md. */
+  padding: calc(1.5rem + env(safe-area-inset-top)) 1rem 3rem;
+}
+
+.demo-page h1 {
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem;
+}
+
+.demo-page__hint {
+  margin: 0 0 1.5rem;
+  font-size: 0.875rem;
+  color: #667085;
+}

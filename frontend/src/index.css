@@ -1,0 +1,21 @@
+/* Global reset — the app is a fixed-height shell (header + nav that never
+   move) with exactly one scrollable region inside it (.app-shell__main), so
+   the page itself must never scroll — see docs/DECISIONS.md,
+   "Mobile shell never scrolls; only the content area does". */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  overscroll-behavior: none;
+}

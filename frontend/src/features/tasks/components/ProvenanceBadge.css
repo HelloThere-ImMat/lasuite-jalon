@@ -1,0 +1,58 @@
+/* Icon-chip style: the app icon in its own small colored square, the label
+   as plain text next to it (not both inside one shared pill) — matches the
+   "Aujourd'hui" reference mockup (2026-09-16) and docs/UX_UI.md's original
+   "top-right of the card" description of source badges. */
+.provenance-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #0b1638;
+}
+
+/* Caps how much space a long sourceLabel (e.g. "Visio — Rétro sprint 12")
+   can take from a sibling flex item — without this, an unbounded badge
+   label squeezes the task title down to a few px on narrow viewports,
+   forcing overflow-wrap: break-word to split words mid-syllable instead
+   of wrapping at word boundaries. Scoped to narrower viewports only —
+   on desktop there's ample room for the full label, no need to truncate.
+   Two tiers: 480px measured against the detected-task-card's top row
+   (checkbox + title + badge + kebab menu on one line) — even 9rem left
+   only ~100px for the title, not enough for long single French words
+   ("d'avancement", "cloudflared") without mid-syllable splitting. */
+@media (max-width: 768px) {
+  .provenance-badge {
+    max-width: 9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .provenance-badge {
+    max-width: 5.5rem;
+  }
+}
+
+.provenance-badge__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.provenance-badge__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 0.375rem;
+  background: var(--c--globals--colors--brand-600, #000091);
+  color: #fff;
+}
+
+.provenance-badge__icon svg {
+  width: 0.75rem;
+  height: 0.75rem;
+}

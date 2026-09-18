@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TaskOrigin {
+  APP
+  TCHAP
+  DOCS
+  MAIL
+  VISIO
+}
+
+enum TaskDetectionStatus {
+  DETECTED
+  CONFIRMED
+  IGNORED
+}
+
+model Task {
+  id               String               @id @default(uuid())
+  title            String
+  content          String?
+  reminder         DateTime?
+  done             Boolean              @default(false)
+  validated        Boolean              @default(false)
+  userId           String?
+  origin           TaskOrigin           @default(APP)
+  // Set only for tasks created by an AI-detection flow (Mail/Visio); null for
+  // manual and explicit-integration tasks, which are confirmed by construction.
+  detectionStatus  TaskDetectionStatus?
+  sourceLabel      String?
+  sourceExternalId String?
+  sourceUrl        String?
+  sourceExcerpt    String?
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+}

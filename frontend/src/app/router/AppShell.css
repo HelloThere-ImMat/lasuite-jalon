@@ -1,0 +1,149 @@
+/* Fixed shell: header and nav never move or scroll — only .app-shell__main
+   scrolls internally when its content overflows. See docs/DECISIONS.md,
+   "Mobile shell never scrolls; only the content area does". */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  /* Both values are always valid CSS (vh works everywhere), so whichever is
+     declared LAST wins the cascade on every browser, dvh-capable or not —
+     vh has to come first as the true fallback, dvh last so it actually
+     applies where supported. Previously reversed: 100vh always won, even on
+     iOS PWA standalone where it doesn't reliably match the true visible
+     viewport, clipping .app-shell__nav's label text (flex-shrink:0, at the
+     bottom of a `height:100vh; overflow:hidden` shell) — found live via a
+     real installed iPhone PWA. */
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  padding-top: env(safe-area-inset-top);
+}
+
+/* Neutral grays here are still plain placeholders (not part of the "brand
+   color" theming decision, docs/DECISIONS.md); the active-nav blue below now
+   uses the real Cunningham token. */
+.app-shell__header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+}
+
+.app-shell__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.app-shell__brand--sidebar {
+  display: none;
+}
+
+.app-shell__logo {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 8px;
+}
+
+.app-shell__wordmark {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: #0b1638;
+}
+
+.app-shell__avatar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: #eef1f6;
+  color: #0b1638;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.app-shell__main {
+  flex: 1;
+  min-height: 0; /* lets this flex child actually shrink and scroll instead of overflowing the fixed-height shell */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1rem;
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.app-shell__nav {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid #e5e5e5;
+  background: #fff;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.app-shell__nav-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.6875rem;
+  text-decoration: none;
+  color: #666;
+}
+
+.app-shell__nav-link[aria-current="page"] {
+  color: var(--c--globals--colors--brand-600, #000091);
+}
+
+/* Desktop: sidebar instead of bottom nav */
+@media (min-width: 768px) {
+  .app-shell {
+    flex-direction: row;
+  }
+
+  .app-shell__header {
+    display: none;
+  }
+
+  .app-shell__nav {
+    /* DOM order is main, then nav (so nav lands at the bottom on mobile's
+       column layout) — reverse that visually here so the sidebar is on the
+       left in this row layout, per docs/UX_UI.md ("Desktop"). */
+    order: -1;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 220px;
+    border-top: none;
+    border-right: 1px solid #e5e5e5;
+    padding: 1rem 0;
+    gap: 0.25rem;
+    overflow-y: auto;
+  }
+
+  .app-shell__brand--sidebar {
+    display: flex;
+    padding: 0 1.25rem 1rem;
+  }
+
+  .app-shell__nav-link {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    width: 100%;
+  }
+
+  .app-shell__main {
+    padding: 2rem;
+    padding-bottom: 2rem;
+    max-width: 720px;
+    margin: 0;
+  }
+}

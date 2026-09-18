@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-lasuite}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-lasuite}
+      POSTGRES_DB: ${POSTGRES_DB:-tasks}
+    ports:
+      # Loopback only: Docker-published ports bypass ufw
+      - "127.0.0.1:${DB_PORT:-5432}:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    # Secrets such as MISTRAL_API_KEY, and CORS_ORIGINS; the values under `environment` take precedence
+    env_file:
+      - path: ./backend/.env
+        required: false
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-lasuite}:${POSTGRES_PASSWORD:-lasuite}@db:5432/${POSTGRES_DB:-tasks}
+      PORT: 3001
+    ports:
+      - "127.0.0.1:${BACKEND_PORT:-3001}:3001"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      # Hot reload + migrations created in the container land on the host
+      - ./backend/src:/app/src
+      - ./backend/prisma:/app/prisma
+
+volumes:
+  db-data:

@@ -1,0 +1,18 @@
+# OS / editor junk
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Dependencies & build output
+node_modules/
+dist/
+build/
+coverage/
+*.log
+
+# Secrets — commit the *.example files instead
+.env
+.env.*
+!.env.example
+*.pem
